@@ -61,14 +61,24 @@ const LoginPage = () => {
         body: JSON.stringify(form),
       });
       const data = await response.json();
-      if (response.ok) {
+      if (response.ok && data.token) {
         localStorage.setItem("token", data.token);
+
+        // Fetch profile to save user info in localStorage for FE-2 pages
+        const profileRes = await fetch("/api/users/profile", {
+          headers: { Authorization: `Bearer ${data.token}` },
+        });
+        const profileData = await profileRes.json();
+        if (profileRes.ok && profileData.data) {
+          localStorage.setItem("user", JSON.stringify(profileData.data));
+        }
+
         navigate("/dashboard");
       } else {
         setApiError(data?.message || "Email atau password salah.");
       }
     } catch (err) {
-      setApiError("Gagal terhubung ke server. Coba lagi.");
+      setApiError("Gagal terhubung ke server.");
     } finally {
       setIsLoading(false);
     }
