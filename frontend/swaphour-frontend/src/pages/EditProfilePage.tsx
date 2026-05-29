@@ -5,6 +5,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import ErrorAlert from "../components/ui/ErrorAlert";
 import Spinner from "../components/ui/Spinner";
+import Logo from "../components/ui/Logo";
 
 interface ProfileData {
   name: string;
@@ -252,19 +253,7 @@ const EditProfilePage = () => {
           }}
         >
           <div>
-            <a
-              href="/"
-              style={{
-                fontSize: "1rem",
-                fontWeight: 800,
-                color: "#fff",
-                textDecoration: "none",
-                display: "block",
-                marginBottom: "0.5rem",
-              }}
-            >
-              ⏱ SwapHour
-            </a>
+            <Logo size={42} />
             <h1
               style={{
                 fontSize: "1.5rem",

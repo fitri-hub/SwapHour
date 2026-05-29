@@ -4,6 +4,7 @@ import gsap from "gsap";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import ErrorAlert from "../components/ui/ErrorAlert";
+import Logo from "../components/ui/Logo";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -277,19 +278,7 @@ const RegisterPage = () => {
           />
 
           <div style={{ textAlign: "center" as const }}>
-            <a
-              href="/"
-              style={{
-                fontSize: "1.1rem",
-                fontWeight: 800,
-                color: "#fff",
-                textDecoration: "none",
-                display: "block",
-                marginBottom: "1.5rem",
-              }}
-            >
-              ⏱ SwapHour
-            </a>
+            <Logo size={42} />
             <h1
               style={{
                 fontSize: "1.75rem",
