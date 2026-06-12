@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/swaphour-backend/dist/index.js" }
+  ]
+}
