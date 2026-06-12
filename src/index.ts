@@ -14,7 +14,6 @@ import { errorHandler } from './middlewares/errorHandlers';
 import { AppError } from './utils/AppError';
 
 import swapRoutes from './routes/swapRoutes';
-import walletRoutes from './routes/walletRoutes';
 
 import ratingRoutes from './routes/ratingRoutes';
 import notificationRoutes from './routes/notificationRoutes';
@@ -29,21 +28,7 @@ const PORT = process.env.PORT || 5000;
 
 // ================= MIDDLEWARES GLOBAL =================
 app.use(express.json()); // Menerima request body berupa JSON
-// app.use(cors());         // Mengizinkan akses dari frontend
-
-const corsOptions = {
-  origin: [
-    'http://localhost:5173', // Untuk testing lokal
-    'https://swaphour-app.vercel.app' // Domain frontend Vercel kamu
-  ],
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Wajib di-true jika pakai JWT di Cookie atau butuh kredensial
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-
+app.use(cors());         // Mengizinkan akses dari frontend
 app.use(helmet());       // Keamanan standar HTTP headers
 app.use(morgan('dev'));  // Logger aktivitas di terminal untuk memudahkan tracking error
 
@@ -67,7 +52,6 @@ app.use('/api/auth', authRoutes);     // Mengurus Register & Login
 app.use('/api/users', userRoutes);    // Mengurus Update Profile
 app.use('/api/skills', skillRoutes);  // Mengurus CRUD Katalog Skill
 app.use('/api/swaps', swapRoutes);    // Mengurus Mesin Utama Swap & Wallet
-app.use('/api/wallet', walletRoutes); // Mengurus Riwayat Transaksi Wallet
 app.use('/api/ratings', ratingRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -88,9 +72,9 @@ app.use(errorHandler);
 // ================= START CRON JOBS =================
 startCronJobs();
 // Asisten otomatis sekarang akan menyala bersamaan dengan server
-app.listen(PORT, () => {
-    console.log(`[SERVER] API SwapHour berjalan di http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`[SERVER] API SwapHour berjalan di http://localhost:${PORT}`);
+// });
 
 export default app;
 module.exports = app;
