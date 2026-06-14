@@ -3,7 +3,13 @@ import prisma from '../utils/prismaClient';
 import { AppError } from '../utils/AppError';
 import { AuthRequest } from '../middlewares/authMiddleware';
 
+<<<<<<< HEAD
 // 1. CREATE REQUEST (Meminta Keahlian)
+=======
+// ==========================================
+// 1. CREATE REQUEST (Meminta Keahlian)
+// ==========================================
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
 export const createSwapRequest = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const { skill_id, notes } = req.body;
@@ -69,6 +75,7 @@ export const createSwapRequest = async (req: AuthRequest, res: Response, next: N
         }
       });
 
+<<<<<<< HEAD
       // ---> NOTIFIKASI <---
       // d. Kirim Notifikasi ke Provider bahwa ada pesanan baru
       await tx.notification.create({
@@ -80,14 +87,23 @@ export const createSwapRequest = async (req: AuthRequest, res: Response, next: N
         }
       });
 
+=======
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
       return newRequest;
     });
 
     res.status(201).json({ status: 'success', data: result });
   } catch (error) { next(error); }
 };
+<<<<<<< HEAD
 // 2. RESPOND REQUEST (Provider Terima/Tolak)
 
+=======
+
+// ==========================================
+// 2. RESPOND REQUEST (Provider Terima/Tolak)
+// ==========================================
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
 export const respondSwapRequest = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     // PERBAIKAN: Tegaskan bahwa id adalah sebuah string
@@ -108,6 +124,7 @@ export const respondSwapRequest = async (req: AuthRequest, res: Response, next: 
         where: { id },
         data: { status: 'active' }
       });
+<<<<<<< HEAD
 
       // ---> NOTIFIKASI <---
       // Kirim Notifikasi ke Requester bahwa request-nya diterima
@@ -119,6 +136,8 @@ export const respondSwapRequest = async (req: AuthRequest, res: Response, next: 
           reference_id: id
         }
       });
+=======
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
       return res.status(200).json({ status: 'success', data: updatedReq });
     } 
     
@@ -150,8 +169,11 @@ export const respondSwapRequest = async (req: AuthRequest, res: Response, next: 
           }
         });
 
+<<<<<<< HEAD
         // Catatan: Kamu juga bisa menambahkan notifikasi penolakan di sini jika mau nantinya.
 
+=======
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
         return rejectedReq;
       });
       return res.status(200).json({ status: 'success', data: result });
@@ -161,8 +183,14 @@ export const respondSwapRequest = async (req: AuthRequest, res: Response, next: 
   } catch (error) { next(error); }
 };
 
+<<<<<<< HEAD
 // 3. COMPLETE REQUEST (Eksekusi Penyelesaian)
 
+=======
+// ==========================================
+// 3. COMPLETE REQUEST (Eksekusi Penyelesaian)
+// ==========================================
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
 export const completeSwapRequest = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     // PERBAIKAN: Tegaskan bahwa id adalah sebuah string
@@ -199,20 +227,32 @@ export const completeSwapRequest = async (req: AuthRequest, res: Response, next:
       
       // TRANSAKSI ATOMIK: Eksekusi final transfer saldo
       await prisma.$transaction(async (tx) => {
+<<<<<<< HEAD
         // Ubah status jadi completed
+=======
+        // 1. Ubah status jadi completed
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
         await tx.swapRequest.update({
           where: { id },
           data: { status: 'completed' }
         });
 
+<<<<<<< HEAD
         // Tambahkan saldo ke Provider
+=======
+        // 2. Tambahkan saldo ke Provider
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
         const duration = Number(swapReq.duration_hours);
         const providerData = await tx.user.update({
           where: { id: swapReq.provider_id },
           data: { credit_hours: { increment: duration } }
         });
 
+<<<<<<< HEAD
         // Catat Wallet Mutasi: Credit untuk Provider (Penerimaan)
+=======
+        // 3. Catat Wallet Mutasi: Credit untuk Provider (Penerimaan)
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
         await tx.walletTransaction.create({
           data: {
             user_id: swapReq.provider_id,
@@ -224,7 +264,12 @@ export const completeSwapRequest = async (req: AuthRequest, res: Response, next:
           }
         });
 
+<<<<<<< HEAD
         // Debit untuk Requester (Pencatatan final dari Hold)
+=======
+        // 4. Catat Wallet Mutasi: Debit untuk Requester (Pencatatan final dari Hold)
+        // Kita hanya mencatat history 'debit', tidak memotong saldo lagi karena sudah dipotong di awal
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
         const requesterData = await tx.user.findUnique({ where: { id: swapReq.requester_id } });
         await tx.walletTransaction.create({
           data: {
@@ -236,6 +281,7 @@ export const completeSwapRequest = async (req: AuthRequest, res: Response, next:
             description: `Pembayaran sukses untuk Swap ID: ${id}`
           }
         });
+<<<<<<< HEAD
 
         // ---> NOTIFIKASI <---
         // Kirim Notifikasi pengingat Rating ke dua belah pihak
@@ -246,6 +292,8 @@ export const completeSwapRequest = async (req: AuthRequest, res: Response, next:
             { user_id: swapReq.provider_id, type: 'swap_completed', message, reference_id: id }
           ]
         });
+=======
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
       });
 
       return res.status(200).json({ status: 'success', message: 'Swap berhasil diselesaikan!' });
