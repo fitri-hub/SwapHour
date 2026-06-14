@@ -26,6 +26,33 @@ router.post(
 );
 
 // Route Login
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Login user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login berhasil
+ */
+=======
+>>>>>>> 1e4d4176030e715c5c4b6f94a227eee803e1eef3
+>>>>>>> bc9362e4744d63465b26fe238933bb198c6018f6
 router.post(
   '/login',
   authLimiter,
